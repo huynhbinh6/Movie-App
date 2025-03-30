@@ -2,11 +2,11 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import React from "react";
 import CircularProgress from "./CircleProgressBar";
 import { FontAwesome5, FontAwesome } from "@expo/vector-icons";
-import { Detail } from "../core/models/DetailResponse";
+import { Movie } from "../core/models/DetailResponse";
 import moment from "moment";
 import { IMAGE_URL } from "../core/api/config";
 
-const MovieInfo = (item: Detail) => {
+const MovieInfo = (item: Movie) => {
   function convertMinutes(minutes: number) {
     const hours = Math.floor(minutes / 60); // Get the whole hours
     const remainingMinutes = minutes % 60; // Get the remaining minutes
@@ -40,7 +40,9 @@ const MovieInfo = (item: Detail) => {
                 ? convertMinutes(item.runtime)
                 : "N/A"}
             </Text>
-            <Text style={styles.genre}>Comedy, Adventure, Fantasy</Text>
+            <Text style={styles.genre}>
+              {item.genres?.map((val) => val?.name).join(", ")}
+            </Text>
             <Text style={styles.status}>
               <Text style={styles.boldText}>Status:</Text> {item.status}
             </Text>

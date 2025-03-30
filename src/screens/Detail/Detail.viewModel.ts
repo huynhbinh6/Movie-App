@@ -12,9 +12,10 @@ export const useViewModel = ({ navigation, route }: IDetailScreenProps) => {
       setLoading(true);
       const movie_id = route.params?.movie_id;
       const { data }: DetailResponse = await axiosClient.get(
-        `${BASE_URL}/movie/${movie_id}?api_key=${API_KEY}`
+        `${BASE_URL}/movie/${movie_id}?api_key=${API_KEY}&append_to_response=credits`
       );
       setMovieData(data);
+      console.log(data);
       
       setLoading(false);
     } catch (error) {
@@ -25,7 +26,7 @@ export const useViewModel = ({ navigation, route }: IDetailScreenProps) => {
 
   useEffect(() => {
     fetchMovieDetail();
-  }, []);
+  }, [route.params?.movie_id]);
 
   return {
     movieData,

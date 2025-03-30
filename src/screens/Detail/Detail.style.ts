@@ -26,32 +26,35 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
   },
   actorImg: {
-    width: 140,
-    height: 155,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
+    width: 286,
+    height: 162,
+    borderRadius: 8,
   },
   cardContainer: {
-    borderRadius: 8,
-    borderWidth: 1,
     width: 142,
     marginTop: 18,
     paddingBottom: 12,
-    borderColor: "#E3E3E3",
+  },
+  nameContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: 'center',
+    // backgroundColor: 'red'
   },
   actorName: {
     fontSize: 18,
     fontWeight: "700",
     paddingHorizontal: 6,
-    marginTop: 6
+    marginTop: 6,
   },
   nickname: {
     fontSize: 16,
     fontWeight: "400",
     paddingHorizontal: 6,
+    marginTop: 6,
   },
   divider: {
     height: 2,
-    backgroundColor: '#E4E4E4'
-  }
+    backgroundColor: "#E4E4E4",
+  },
 });

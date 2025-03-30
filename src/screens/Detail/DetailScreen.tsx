@@ -14,10 +14,11 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { IDetailScreenProps } from "./Detail.type";
 import { useViewModel } from "./Detail.viewModel";
 import MovieInfo from "../../components/MovieInfo";
+import TopCast from "../../components/TopCast";
 
 const DetailScreen = ({ navigation, route }: IDetailScreenProps) => {
   const { movieData, loading } = useViewModel({ navigation, route });
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imgContainer}>
@@ -29,23 +30,18 @@ const DetailScreen = ({ navigation, route }: IDetailScreenProps) => {
       </View>
       <ScrollView style={styles.contentContainer}>
         <MovieInfo
-          id={movieData?.id}
-          overview={movieData?.overview}
-          poster_path={movieData?.poster_path}
-          release_date={movieData?.release_date}
-          title={movieData?.title}
+          id={movieData?.id ?? 0}
+          overview={movieData?.overview ?? ""}
+          poster_path={movieData?.poster_path ?? ""}
+          release_date={movieData?.release_date ?? ""}
+          title={movieData?.title ?? ""}
+          genres={movieData?.genres ?? []}
+          credits={movieData?.credits ?? { cast: [], crew: [] }}
+          runtime={movieData?.runtime ?? 0}
+          status={movieData?.status ?? ""}
+          tagline={movieData?.tagline ?? ""}
         />
-        <View style={styles.topCastContainer}>
-          <Text style={styles.topCast}>Top Billed Cast</Text>
-          <View style={styles.cardContainer}>
-            <Image
-              source={require("../../assets/icon.png")}
-              style={styles.actorImg}
-            />
-            <Text style={styles.actorName}>Margot Robbie</Text>
-            <Text style={styles.nickname}>Barbie</Text>
-          </View>
-        </View>
+        <TopCast data={movieData?.credits.cast ?? []} />
         <View style={styles.divider} />
         <View style={styles.topCastContainer}>
           <Text style={styles.topCast}>Recommendations</Text>
@@ -54,8 +50,10 @@ const DetailScreen = ({ navigation, route }: IDetailScreenProps) => {
               source={require("../../assets/icon.png")}
               style={styles.actorImg}
             />
-            <Text style={styles.actorName}>Margot Robbie</Text>
-            <Text style={styles.nickname}>Barbie</Text>
+            <View style={styles.nameContainer}>
+              <Text style={styles.actorName}>Margot Robbie</Text>
+              <Text style={styles.nickname}>Barbie</Text>
+            </View>
           </View>
         </View>
       </ScrollView>
