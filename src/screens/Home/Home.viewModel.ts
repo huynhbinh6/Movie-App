@@ -67,9 +67,6 @@ export const useViewModel = ({ navigation, route }: IHomeScreenProps) => {
   };
   const onChangeSearchText = (text: string) => {
     setSearchText(text);
-    if (searchText.length == 0) {
-      onSearchMovie();
-    }
   };
 
   const onSearchMovie = async () => {
@@ -78,7 +75,6 @@ export const useViewModel = ({ navigation, route }: IHomeScreenProps) => {
       const { data }: MovieResponse = await axiosClient.get(
         `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${searchText}`
       );
-      console.log(data);
 
       setMovies(data.results);
       setTotalPage(data.total_pages);
