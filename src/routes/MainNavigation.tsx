@@ -11,6 +11,7 @@ import RegisterScreen from "../screens/Register/RegisterScreen";
 import { RootState } from "../redux/store";
 import { setTokenFromStorage } from "../redux/authSlice";
 import DetailScreen from "../screens/Detail/DetailScreen";
+import BookmarkScreen from "../screens/Bookmark/BookmarkScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -34,7 +35,7 @@ const BottomTab = () => {
 
           if (route.name === "HomeTab") {
             iconName = focused ? "home" : "home";
-          } else if (route.name === "Infor") {
+          } else if (route.name === "Bookmark") {
             iconName = focused ? "bookmark" : "bookmark";
           }
 
@@ -56,7 +57,7 @@ const BottomTab = () => {
       })}
     >
       <Tab.Screen name="HomeTab" component={HomeStackScreen} />
-      <Tab.Screen name="Infor" component={LoginScreen} />
+      <Tab.Screen name="Bookmark" component={BookmarkScreen} />
     </Tab.Navigator>
   );
 };

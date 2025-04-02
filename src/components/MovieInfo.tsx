@@ -2,19 +2,34 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import React from "react";
 import CircularProgress from "./CircleProgressBar";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { Movie } from "../core/models/DetailResponse";
+import { Credits, Genre, Movie } from "../core/models/DetailResponse";
 import moment from "moment";
 import { IMAGE_URL } from "../core/api/config";
+import _ from "lodash";
 
-const MovieInfo = (item: Movie) => {
+type Props = {
+  id: number;
+  poster_path: string;
+  release_date: string;
+  vote_average: number;
+  runtime: number;
+  genres: Genre[];
+  status: string;
+  original_language: string;
+  credits: Credits;
+  tagline: string;
+  overview: string;
+  onPress: (id: number) => void;
+};
+
+const MovieInfo = (item: Props) => {
   function convertMinutes(minutes: number) {
     const hours = Math.floor(minutes / 60); // Get the whole hours
     const remainingMinutes = minutes % 60; // Get the remaining minutes
     return `${hours}h ${remainingMinutes}m`;
   }
   const convertPercentage = Math.floor(item.vote_average * 10);
-  console.log(item.credits.crew);
-  
+
   return (
     <>
       <View style={styles.headerContainer}>
@@ -67,12 +82,18 @@ const MovieInfo = (item: Movie) => {
           {/* not sure which value can be pass here */}
           <View style={styles.crew}>
             <Text style={styles.crewText}>
-              <Text style={styles.boldText}>{item.credits?.crew[0].name}</Text> {"\n"}
-              {item.credits?.crew[0].job}
+              <Text style={styles.boldText}>
+                {!_.isEmpty(item.credits) ? item.credits.crew[0]?.name : ""}
+              </Text>{" "}
+              {"\n"}
+              {!_.isEmpty(item.credits) ? item.credits.crew[0]?.job : ""}
             </Text>
             <Text style={[styles.crewText, { marginTop: 18 }]}>
-              <Text style={styles.boldText}>{item.credits?.crew[2].name}</Text> {"\n"}
-              {item.credits?.crew[2].job}
+              <Text style={styles.boldText}>
+                {!_.isEmpty(item.credits) ? item.credits.crew[2]?.name : ""}
+              </Text>{" "}
+              {"\n"}
+              {!_.isEmpty(item.credits) ? item.credits.crew[2]?.job : ""}
             </Text>
           </View>
         </View>
@@ -81,7 +102,12 @@ const MovieInfo = (item: Movie) => {
         <Text numberOfLines={5} style={styles.overview}>
           {item.overview}
         </Text>
-        <TouchableOpacity style={styles.watchlistButton}>
+        <TouchableOpacity
+          onPress={() => {
+            item.onPress(item.id);
+          }}
+          style={styles.watchlistButton}
+        >
           <FontAwesome5 name="bookmark" size={16} color="white" />
           <Text style={styles.watchlistText}> Add To Watchlist</Text>
         </TouchableOpacity>
