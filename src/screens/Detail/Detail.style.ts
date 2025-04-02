@@ -16,42 +16,23 @@ export const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
   },
-  topCastContainer: {
-    paddingHorizontal: 24,
-    marginVertical: 16,
-    marginBottom: 30,
-  },
-  topCast: {
-    fontSize: 22,
-    fontWeight: "600",
-  },
-  actorImg: {
-    width: 286,
-    height: 162,
-    borderRadius: 8,
-  },
-  cardContainer: {
-    width: 142,
-    marginTop: 18,
-    paddingBottom: 12,
-  },
-  nameContainer: {
+  header: {
     flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-between",
-    alignItems: 'center',
-    // backgroundColor: 'red'
+    paddingTop: 20,
+    paddingHorizontal: 16,
+    backgroundColor: "#2596be",
   },
-  actorName: {
-    fontSize: 18,
-    fontWeight: "700",
-    paddingHorizontal: 6,
-    marginTop: 6,
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#fff",
+    marginLeft: 10,
   },
-  nickname: {
-    fontSize: 16,
-    fontWeight: "400",
-    paddingHorizontal: 6,
-    marginTop: 6,
+  endHeaderComponent: {
+    width: 16,
+    height: 16,
   },
   divider: {
     height: 2,

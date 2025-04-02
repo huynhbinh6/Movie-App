@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import React from "react";
 import CircularProgress from "./CircleProgressBar";
-import { FontAwesome5, FontAwesome } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { Movie } from "../core/models/DetailResponse";
 import moment from "moment";
 import { IMAGE_URL } from "../core/api/config";
@@ -15,13 +15,6 @@ const MovieInfo = (item: Movie) => {
   return (
     <>
       <View style={styles.headerContainer}>
-        <View style={styles.header}>
-          <TouchableOpacity>
-            <FontAwesome name="chevron-left" size={16} color={"#fff"} />
-          </TouchableOpacity>
-          <Text style={styles.title}>{item.title}</Text>
-          <View style={styles.endHeaderComponent} />
-        </View>
         <View style={styles.movieInfo}>
           <Image
             source={{
@@ -97,22 +90,6 @@ const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: "#2596be",
     paddingHorizontal: 16,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 20,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#fff",
-    marginLeft: 10,
-  },
-  endHeaderComponent: {
-    width: 16,
-    height: 16,
   },
   movieInfo: {
     flexDirection: "row",

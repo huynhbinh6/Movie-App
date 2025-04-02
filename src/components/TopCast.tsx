@@ -36,8 +36,9 @@ const TopCast = ({ data }: Props) => {
 const styles = StyleSheet.create({
   topCastContainer: {
     paddingHorizontal: 24,
-    marginVertical: 16,
-    marginBottom: 30,
+    paddingVertical: 16,
+    paddingBottom: 30,
+    backgroundColor: '#fff'
   },
   topCast: {
     fontSize: 22,

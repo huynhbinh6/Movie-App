@@ -65,9 +65,6 @@ export const useViewModel = ({ navigation, route }: IHomeScreenProps) => {
   const onSelectedSort = (item: SelectedItem) => {
     setSortSelected(item);
   };
-  const onChangeSearchText = (text: string) => {
-    setSearchText(text);
-  };
 
   const onSearchMovie = async () => {
     try {
@@ -82,6 +79,10 @@ export const useViewModel = ({ navigation, route }: IHomeScreenProps) => {
     } catch (error) {
       console.error("Failed to fetch movies:", error);
     }
+  };
+
+  const onChangeSearchText = (text: string) => {
+    setSearchText(text);
   };
 
   const toMovieDetail = (id: number) => {

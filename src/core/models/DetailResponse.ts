@@ -1,4 +1,5 @@
 import { AxiosResponse } from "axios";
+import { MovieResponse } from "./MovieResponse";
 
 export type CastMember = {
   id: number;
@@ -43,6 +44,30 @@ export type SpokenLanguage = {
   name: string;
 };
 
+export type MovieSimilarItem = {
+  id: number;
+  adult?: boolean;
+  backdrop_path?: string;
+  genre_ids?: number[];
+  original_language?: string;
+  original_title?: string;
+  overview: string;
+  popularity?: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video?: boolean;
+  vote_average?: number;
+  vote_count?: number;
+};
+
+export type MovieSimilar = {
+  page: number;
+  results: MovieSimilarItem[];
+  total_pages: number;
+  total_results: number;
+};
+
 export type Movie = {
   adult?: boolean;
   backdrop_path?: string;
@@ -67,10 +92,11 @@ export type Movie = {
   spoken_languages?: SpokenLanguage[];
   status: string;
   tagline: string;
-  title: string;
+  title?: string;
   video?: boolean;
   vote_average?: number;
   vote_count?: number;
+  similar?: MovieSimilar;
 };
 
 export type DetailResponse = AxiosResponse<Movie>;
