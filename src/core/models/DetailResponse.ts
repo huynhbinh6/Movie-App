@@ -94,7 +94,7 @@ export type Movie = {
   tagline: string;
   title?: string;
   video?: boolean;
-  vote_average?: number;
+  vote_average: number;
   vote_count?: number;
   similar?: MovieSimilar;
 };

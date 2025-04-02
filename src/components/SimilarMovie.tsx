@@ -10,22 +10,24 @@ type Props = {
 const SimilarMovie = ({ data }: Props) => {
   const _renderItem = ({ item }: { item: MovieSimilarItem }) => {
     return (
-      <View style={styles.topCastContainer}>
-        <Text style={styles.topCast}>Recommendations</Text>
-        <View style={styles.cardContainer}>
-          <Image
-            source={{ uri: `${IMAGE_URL}${item.backdrop_path}` }}
-            style={styles.actorImg}
-          />
-          <View style={styles.nameContainer}>
-            <Text style={styles.actorName}>{item.title}</Text>
-            <Text style={styles.nickname}>76%</Text>
-          </View>
+      <View style={styles.cardContainer}>
+        <Image
+          source={{ uri: `${IMAGE_URL}${item.backdrop_path}` }}
+          style={styles.actorImg}
+        />
+        <View style={styles.nameContainer}>
+          <Text style={styles.actorName}>{item.title}</Text>
+          <Text style={styles.nickname}>76%</Text>
         </View>
       </View>
     );
   };
-  return <FlatList data={data} renderItem={_renderItem} />;
+  return (
+    <View style={styles.topCastContainer}>
+      <Text style={styles.topCast}>Recommendations</Text>
+      <FlatList horizontal data={data} renderItem={_renderItem} />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -48,6 +50,7 @@ const styles = StyleSheet.create({
     width: 286,
     marginTop: 18,
     paddingBottom: 12,
+    marginRight: 16
   },
   nameContainer: {
     flexDirection: "row",

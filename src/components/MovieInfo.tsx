@@ -12,6 +12,9 @@ const MovieInfo = (item: Movie) => {
     const remainingMinutes = minutes % 60; // Get the remaining minutes
     return `${hours}h ${remainingMinutes}m`;
   }
+  const convertPercentage = Math.floor(item.vote_average * 10);
+  console.log(item.credits.crew);
+  
   return (
     <>
       <View style={styles.headerContainer}>
@@ -51,7 +54,7 @@ const MovieInfo = (item: Movie) => {
           <View style={styles.userScoreContent}>
             <View style={styles.circleProgress}>
               <CircularProgress
-                progress={74} //not sure popularity
+                progress={convertPercentage}
                 size={50}
                 outerCircleColor="#D0D2D366"
                 progressCircleColor="#45FF8F"
@@ -64,11 +67,12 @@ const MovieInfo = (item: Movie) => {
           {/* not sure which value can be pass here */}
           <View style={styles.crew}>
             <Text style={styles.crewText}>
-              <Text style={styles.boldText}>Greta Gerwig</Text> {"\n"}
-              Director, Writer
+              <Text style={styles.boldText}>{item.credits?.crew[0].name}</Text> {"\n"}
+              {item.credits?.crew[0].job}
             </Text>
             <Text style={[styles.crewText, { marginTop: 18 }]}>
-              <Text style={styles.boldText}>Noah Baumbach</Text> {"\n"}Writer
+              <Text style={styles.boldText}>{item.credits?.crew[2].name}</Text> {"\n"}
+              {item.credits?.crew[2].job}
             </Text>
           </View>
         </View>

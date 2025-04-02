@@ -16,7 +16,10 @@ import TopCast from "../../components/TopCast";
 import SimilarMovie from "../../components/SimilarMovie";
 
 const DetailScreen = ({ navigation, route }: IDetailScreenProps) => {
-  const { movieData, loading, onGoBack } = useViewModel({ navigation, route });
+  const { movieData, loading, onGoBack, language } = useViewModel({
+    navigation,
+    route,
+  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -45,6 +48,8 @@ const DetailScreen = ({ navigation, route }: IDetailScreenProps) => {
           runtime={movieData?.runtime ?? 0}
           status={movieData?.status ?? ""}
           tagline={movieData?.tagline ?? ""}
+          original_language={language}
+          vote_average={movieData?.vote_average ?? 0}
         />
         <TopCast data={movieData?.credits.cast ?? []} />
         {movieData?.similar?.results.length !== 0 && (
