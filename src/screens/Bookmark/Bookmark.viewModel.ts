@@ -6,12 +6,25 @@ import {
   WatchListMovie,
   WatchListResponse,
 } from "../../core/models/WatchListResponse";
+import { UserProfile, UserResponse } from "../../core/models/UserResponse";
 export const useViewModel = ({ navigation, route }: IBookmarkScreenProps) => {
   const [data, setData] = useState<WatchListMovie[]>();
   const [sortBy, setSortBy] = useState("vote_average");
   const [orderBy, setOrderBy] = useState("asc");
   const [loading, setLoading] = useState<boolean>(false);
   const [isExpand, setIsExpand] = useState<boolean>(false);
+  const [accountData, setAccountDate] = useState<UserProfile>();
+
+  const getAccountStat = async () => {
+    try {
+      setLoading(true);
+      const { data }: UserResponse = await axiosClient.get(
+        `${BASE_URL}/account/${ACCOUNT_ID}`
+      );
+      setAccountDate(data);
+      setLoading(false);
+    } catch (error) {}
+  };
 
   const fetchBookmarkList = async () => {
     try {
@@ -43,6 +56,14 @@ export const useViewModel = ({ navigation, route }: IBookmarkScreenProps) => {
     setIsExpand(false);
   };
 
+  const removeFromWatchlist = (id: any) => {
+    setData(data?.filter((item) => item.id !== id));
+  };
+
+  useEffect(() => {
+    getAccountStat();
+  }, []);
+
   useEffect(() => {
     fetchBookmarkList();
   }, [sortBy, orderBy]);
@@ -53,8 +74,10 @@ export const useViewModel = ({ navigation, route }: IBookmarkScreenProps) => {
     orderBy,
     loading,
     isExpand,
+    accountData,
     onExpand,
     onChangeOrder,
     onChangeSort,
+    removeFromWatchlist
   };
 };

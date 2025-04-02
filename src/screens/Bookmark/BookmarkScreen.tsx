@@ -23,45 +23,16 @@ const BookmarkScreen = ({ navigation, route }: IBookmarkScreenProps) => {
     orderBy,
     loading,
     isExpand,
+    accountData,
     onChangeOrder,
     onChangeSort,
     onExpand,
+    removeFromWatchlist
   } = useViewModel({
     navigation,
     route,
   });
 
-  // Dummy watchlist data
-  const [watchlist, setWatchlist] = useState([
-    {
-      id: "1",
-      title: "Barbie",
-      date: "19 July 2023",
-      image: "https://image-url.com/barbie.jpg",
-      description:
-        "Barbie and Ken are having the time of their lives in the colorful and...",
-    },
-    {
-      id: "2",
-      title: "Ruby Gillman, Teenage Kraken",
-      date: "28 June 2023",
-      image: "https://image-url.com/ruby.jpg",
-      description: "Ruby Gillman, a sweet and awkward high school student,...",
-    },
-    {
-      id: "3",
-      title: "The Flash",
-      date: "13 June 2023",
-      image: "https://image-url.com/flash.jpg",
-      description:
-        "When his attempt to save his family inadvertently alters the future,...",
-    },
-  ]);
-
-  // Remove item from watchlist
-  const removeFromWatchlist = (id: any) => {
-    setWatchlist(watchlist.filter((item) => item.id !== id));
-  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imgContainer}>
@@ -73,11 +44,11 @@ const BookmarkScreen = ({ navigation, route }: IBookmarkScreenProps) => {
       </View>
       <View style={styles.headerContainer}>
         <View style={styles.profileIcon}>
-          <Text style={styles.profileText}>J</Text>
+          <Text style={styles.profileText}>{accountData?.name.charAt(0)}</Text>
         </View>
         <View style={styles.profileContainer}>
-          <Text style={styles.profileName}>John Lee</Text>
-          <Text style={styles.memberSince}>Member since August 2023</Text>
+          <Text style={styles.profileName}>{accountData?.name}</Text>
+          <Text style={styles.memberSince}>Member since March 2025</Text>
         </View>
       </View>
       <View style={styles.infoContainer}>
@@ -102,7 +73,7 @@ const BookmarkScreen = ({ navigation, route }: IBookmarkScreenProps) => {
                   Rating
                 </Text>
                 <Text
-                  onPress={() => onChangeSort('created_at')}
+                  onPress={() => onChangeSort("created_at")}
                   style={
                     sortBy == "created_at"
                       ? styles.creation
