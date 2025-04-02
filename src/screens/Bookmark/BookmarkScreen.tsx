@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
@@ -16,9 +17,19 @@ import { IMAGE_URL } from "../../core/api/config";
 import moment from "moment";
 
 const BookmarkScreen = ({ navigation, route }: IBookmarkScreenProps) => {
-  const { data } = useViewModel({ navigation, route });
-  const [sortOrder, setSortOrder] = useState("asc"); // Sorting order
-  const [filter, setFilter] = useState("Rating"); // Default filter
+  const {
+    data,
+    sortBy,
+    orderBy,
+    loading,
+    isExpand,
+    onChangeOrder,
+    onChangeSort,
+    onExpand,
+  } = useViewModel({
+    navigation,
+    route,
+  });
 
   // Dummy watchlist data
   const [watchlist, setWatchlist] = useState([
@@ -47,13 +58,6 @@ const BookmarkScreen = ({ navigation, route }: IBookmarkScreenProps) => {
     },
   ]);
 
-  // Sorting logic (based on filter & order)
-  const sortedWatchlist = [...watchlist].sort((a, b) => {
-    return sortOrder === "asc"
-      ? a.title.localeCompare(b.title)
-      : b.title.localeCompare(a.title);
-  });
-
   // Remove item from watchlist
   const removeFromWatchlist = (id: any) => {
     setWatchlist(watchlist.filter((item) => item.id !== id));
@@ -79,58 +83,92 @@ const BookmarkScreen = ({ navigation, route }: IBookmarkScreenProps) => {
       <View style={styles.infoContainer}>
         <Text style={styles.watchlistText}>My Watchlist</Text>
         <View style={styles.filters}>
-          <Text style={styles.filterLabel}>Filter by:</Text>
-          <Text style={styles.filterText}>{filter}</Text>
-          <AntDesign name={"down"} size={20} color="#00B4E4" />
+          <TouchableOpacity onPress={onExpand} style={styles.sortBy}>
+            <Text style={styles.filterLabel}>Filter by:</Text>
+            <Text style={styles.filterText}>
+              {sortBy == "vote_average" ? "Rating" : "Creation"}
+            </Text>
+            <AntDesign name={"down"} size={20} color="#00B4E4" />
+            {isExpand ? (
+              <View style={styles.sortByModal}>
+                <Text
+                  onPress={() => onChangeSort("vote_average")}
+                  style={
+                    sortBy == "vote_average"
+                      ? styles.rating
+                      : styles.ratingInactive
+                  }
+                >
+                  Rating
+                </Text>
+                <Text
+                  onPress={() => onChangeSort('created_at')}
+                  style={
+                    sortBy == "created_at"
+                      ? styles.creation
+                      : styles.creationInactive
+                  }
+                >
+                  Creation
+                </Text>
+              </View>
+            ) : null}
+          </TouchableOpacity>
           <Text
             style={[styles.filterLabel, { marginLeft: 16, marginRight: 8 }]}
           >
             Order:
           </Text>
-          <TouchableOpacity
-            onPress={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
-          >
+          <TouchableOpacity onPress={onChangeOrder}>
             <AntDesign
-              name={sortOrder === "asc" ? "arrowup" : "arrowdown"}
+              name={orderBy === "asc" ? "arrowup" : "arrowdown"}
               size={20}
               color="black"
             />
           </TouchableOpacity>
         </View>
-        <FlatList
-          data={data}
-          style={styles.listMovieContainer}
-          keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={styles.content}
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-          renderItem={({ item }) => (
-            <View style={styles.card}>
-              <Image
-                source={{
-                  uri: `${IMAGE_URL}${item.poster_path}`,
-                }}
-                style={styles.poster}
-              />
-              <View style={styles.cardContent}>
-                <Text style={styles.movieTitle}>{item.title}</Text>
-                <Text style={styles.movieDate}>
-                  {moment(item.release_date).format("D MMMM YYYY")}
-                </Text>
-                <Text numberOfLines={2} style={styles.movieDescription}>
-                  {item.overview}
-                </Text>
+        {loading ? (
+          <ActivityIndicator
+            style={{ marginTop: 30 }}
+            color={"#00B4E4"}
+            size={"large"}
+          />
+        ) : (
+          <FlatList
+            data={data}
+            style={styles.listMovieContainer}
+            keyExtractor={(item) => item.id.toString()}
+            contentContainerStyle={styles.content}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            renderItem={({ item }) => (
+              <View style={styles.card}>
+                <Image
+                  source={{
+                    uri: `${IMAGE_URL}${item.poster_path}`,
+                  }}
+                  style={styles.poster}
+                />
+                <View style={styles.cardContent}>
+                  <Text style={styles.movieTitle}>{item.title}</Text>
+                  <Text style={styles.movieDate}>
+                    {moment(item.release_date).format("D MMMM YYYY")}
+                  </Text>
+                  <Text numberOfLines={2} style={styles.movieDescription}>
+                    {item.overview}
+                  </Text>
+                </View>
+                <TouchableOpacity
+                  onPress={() => removeFromWatchlist(item.id)}
+                  style={styles.removeButton}
+                >
+                  <AntDesign name="close" size={18} color="black" />
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                onPress={() => removeFromWatchlist(item.id)}
-                style={styles.removeButton}
-              >
-                <AntDesign name="close" size={18} color="black" />
-              </TouchableOpacity>
-            </View>
-          )}
-          ListFooterComponent={<View style={{ height: 150 }} />}
-        />
+            )}
+            ListFooterComponent={<View style={{ height: 150 }} />}
+          />
+        )}
       </View>
     </SafeAreaView>
   );

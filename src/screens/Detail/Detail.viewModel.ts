@@ -2,14 +2,21 @@ import { useEffect, useMemo, useState } from "react";
 import { axiosClient } from "../../core/api/axiosClient";
 import { ACCOUNT_ID, API_KEY, BASE_URL, TOKEN } from "../../core/api/config";
 import { IDetailScreenProps } from "./Detail.type";
-import { Movie, DetailResponse } from "../../core/models/DetailResponse";
+import {
+  Movie,
+  DetailResponse,
+  MovieStatus,
+  MovieStatusResponse,
+} from "../../core/models/DetailResponse";
 import { Language } from "../../core/models/LanguageResponse";
 import { Alert } from "react-native";
 
 export const useViewModel = ({ navigation, route }: IDetailScreenProps) => {
+  const movie_id = route.params?.movie_id;
   const [movieData, setMovieData] = useState<Movie>();
   const [loading, setLoading] = useState(false);
   const [language, setLanguage] = useState<string>("");
+  const [watchlistStatus, setWatchlistStatus] = useState<boolean>(false);
   const options = {
     headers: {
       accept: "application/json",
@@ -18,10 +25,23 @@ export const useViewModel = ({ navigation, route }: IDetailScreenProps) => {
     },
   };
 
+  const getAccountStat = async () => {
+    try {
+      setLoading(true);
+      const { data }: MovieStatusResponse = await axiosClient.get(
+        `${BASE_URL}/movie/${movie_id}/account_states`
+      );
+      setWatchlistStatus(data.watchlist);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
   const fetchMovieDetail = async () => {
     try {
       setLoading(true);
-      const movie_id = route.params?.movie_id;
       const { data }: DetailResponse = await axiosClient.get(
         `${BASE_URL}/movie/${movie_id}?append_to_response=credits,similar`,
         options
@@ -52,7 +72,10 @@ export const useViewModel = ({ navigation, route }: IDetailScreenProps) => {
 
       fetch(`${BASE_URL}/account/${ACCOUNT_ID}/watchlist`, params)
         .then((res) => res.json())
-        .then((res) => Alert.alert("Add To Watchlist", res.status_message))
+        .then((res) => {
+          Alert.alert("Add To Watchlist", res.status_message);
+          setWatchlistStatus(true);
+        })
         .catch((err) => console.error(err));
     } catch (error) {
       console.log("error", error);
@@ -85,6 +108,10 @@ export const useViewModel = ({ navigation, route }: IDetailScreenProps) => {
     fetchMovieDetail();
   }, [route.params?.movie_id]);
 
+  useEffect(() => {
+    getAccountStat();
+  }, [route.params?.movie_id, watchlistStatus]);
+
   const onGoBack = () => {
     navigation.goBack();
   };
@@ -95,5 +122,6 @@ export const useViewModel = ({ navigation, route }: IDetailScreenProps) => {
     onGoBack,
     addToWatchList,
     language,
+    watchlistStatus
   };
 };

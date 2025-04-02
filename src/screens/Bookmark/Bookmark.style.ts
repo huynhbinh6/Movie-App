@@ -43,10 +43,41 @@ export const styles = StyleSheet.create({
   },
   watchlistText: {
     fontSize: 18,
-    fontWeight: '700',
-    marginBottom: 20
+    fontWeight: "700",
+    marginBottom: 20,
   },
   filters: { flexDirection: "row", alignItems: "center" },
+  sortBy: { flexDirection: "row", alignItems: "center", zIndex: 999 },
+  sortByModal: {
+    position: 'absolute',
+    left: 70,
+    top: 30,
+    paddingHorizontal: 40,
+    paddingVertical: 12,
+    backgroundColor: '#00B4E4',
+    alignItems: 'center',
+    zIndex: 9999
+  },
+  rating: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  ratingInactive: {
+    color: '#000',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  creation: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  creationInactive: {
+    color: '#000',
+    fontSize: 16,
+    fontWeight: '600',
+  },
   filterLabel: {
     fontSize: 16,
     fontWeight: "400",
@@ -82,5 +113,5 @@ export const styles = StyleSheet.create({
   movieTitle: { fontSize: 16, fontWeight: "bold" },
   movieDate: { fontSize: 14, color: "gray" },
   movieDescription: { fontSize: 14, color: "#000", marginTop: 16 },
-  removeButton: { padding: 5, position: 'absolute', top: 5, right: 5 },
+  removeButton: { padding: 5, position: "absolute", top: 5, right: 5 },
 });

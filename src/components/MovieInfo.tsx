@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import React from "react";
 import CircularProgress from "./CircleProgressBar";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import { Credits, Genre, Movie } from "../core/models/DetailResponse";
 import moment from "moment";
 import { IMAGE_URL } from "../core/api/config";
@@ -20,6 +20,7 @@ type Props = {
   tagline: string;
   overview: string;
   onPress: (id: number) => void;
+  watchlist: boolean;
 };
 
 const MovieInfo = (item: Props) => {
@@ -108,7 +109,11 @@ const MovieInfo = (item: Props) => {
           }}
           style={styles.watchlistButton}
         >
-          <FontAwesome5 name="bookmark" size={16} color="white" />
+          <FontAwesome
+            name={item.watchlist ? "bookmark" : "bookmark-o"}
+            size={16}
+            color={item.watchlist ? "yellow" : "#fff"}
+          />
           <Text style={styles.watchlistText}> Add To Watchlist</Text>
         </TouchableOpacity>
       </View>

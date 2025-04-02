@@ -68,6 +68,14 @@ export type MovieSimilar = {
   total_results: number;
 };
 
+export type MovieStatus = {
+  id: number;
+  favorite: boolean;
+  rated: boolean;
+  watchlist: boolean;
+};
+
+
 export type Movie = {
   adult?: boolean;
   backdrop_path?: string;
@@ -100,3 +108,4 @@ export type Movie = {
 };
 
 export type DetailResponse = AxiosResponse<Movie>;
+export type MovieStatusResponse = AxiosResponse<MovieStatus>;

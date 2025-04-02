@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import LoginScreen from "../screens/Login/LoginScreen";
 import HomeScreen from "../screens/Home/HomeScreen";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import RegisterScreen from "../screens/Register/RegisterScreen";
@@ -31,15 +31,15 @@ const BottomTab = () => {
       initialRouteName="HomeTab"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
+          let iconName: "home" | "bookmark" | "bookmark-o" | undefined;
 
           if (route.name === "HomeTab") {
             iconName = focused ? "home" : "home";
           } else if (route.name === "Bookmark") {
-            iconName = focused ? "bookmark" : "bookmark";
+            iconName = focused ? "bookmark" : "bookmark-o";
           }
 
-          return <FontAwesome5 name={iconName} size={size} color={color} />;
+          return <FontAwesome name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: "#007AFF",
         tabBarInactiveTintColor: "gray",

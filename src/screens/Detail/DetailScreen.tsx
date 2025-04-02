@@ -17,7 +17,7 @@ import TopCast from "../../components/TopCast";
 import SimilarMovie from "../../components/SimilarMovie";
 
 const DetailScreen = ({ navigation, route }: IDetailScreenProps) => {
-  const { movieData, loading, onGoBack, addToWatchList, language } =
+  const { movieData, loading, onGoBack, addToWatchList, language, watchlistStatus } =
     useViewModel({
       navigation,
       route,
@@ -56,6 +56,7 @@ const DetailScreen = ({ navigation, route }: IDetailScreenProps) => {
             tagline={movieData?.tagline ?? ""}
             overview={movieData?.overview ?? ""}
             onPress={addToWatchList}
+            watchlist={watchlistStatus}
           />
           <TopCast data={movieData?.credits.cast ?? []} />
           {movieData?.similar?.results.length !== 0 && (
